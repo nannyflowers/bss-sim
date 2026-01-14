@@ -1,5 +1,7 @@
 from data.fields import field_data, size_multiplier
 from data.tools import tool_data
+from events.convert_pollen import ConvertPollen
+import math
 
 class CollectPollen:
     def __init__(self, amount, colour="any", field="any"):
@@ -40,6 +42,14 @@ class CollectPollen:
         )
 
         total_tool_rate = base_tool_rate * expected_pollen_per_flower * tool_colour_multiplier
-
         total_rate = total_tool_rate + total_bee_rate
-        return self.amount / total_rate
+        total_pollen_time = self.amount / total_rate
+        
+        runs = math.ceil(self.amount / player.capacity) - 1
+        
+        total_convert_time = sum(
+            ConvertPollen().process(player)
+            for i in range(runs)
+        )
+
+        return total_pollen_time + total_convert_time
