@@ -1,8 +1,8 @@
 import math
 
 class ConvertPollen:
-    def __init__(self):
-        pass
+    def __init__(self, amount="all"):
+        self.amount = amount
     
     def process(self, player):
 
@@ -13,5 +13,7 @@ class ConvertPollen:
             for bee in player.bees
         )
         
-        convert_time = player.capacity / convert_rate
+        if self.amount == "all":    self.amount = player.pollen
+
+        convert_time =  self.amount / convert_rate
         return convert_time
